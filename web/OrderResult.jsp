@@ -12,8 +12,9 @@
         <title>Order Page</title>
     </head>
     <body>
+        <h1>This is what you ordered below: </h1>
         <%
-            Object ordered = request.getAttribute("ItensOrdered");
+            Object ordered = request.getAttribute("ItemsOrdered");
             String answer = "";
             if (ordered != null) {
                 answer = ordered.toString();
@@ -21,5 +22,6 @@
             out.print(answer);
 
         %>
+        <p><a href="OrderMenu.jsp">Click Here To Go Back to Order</a></p>
     </body>
 </html>

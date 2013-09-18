@@ -23,7 +23,7 @@ import model.CashRegister;
 public class OrderMenuController extends HttpServlet {
 
     private static final String ORDER_PAGE = "/OrderResult.jsp";
-    private String orders = "";
+
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -38,15 +38,16 @@ public class OrderMenuController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-            String[] foods = request.getParameterValues("food");
-            
-            CashRegister cr = new CashRegister();
-            orders = cr.getBillForCustomer(foods);
-            
-            request.setAttribute("ItemsOrdered", orders);
-            
-            RequestDispatcher view = request.getRequestDispatcher(ORDER_PAGE);
-            view.forward(request, response);
+        String order = "";
+        String[] foods = request.getParameterValues("food");
+
+        CashRegister cr = new CashRegister();
+        order = cr.getBillForCustomer(foods);
+
+        request.setAttribute("ItemsOrdered", order);
+
+        RequestDispatcher view = request.getRequestDispatcher(ORDER_PAGE);
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
