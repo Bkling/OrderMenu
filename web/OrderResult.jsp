@@ -12,6 +12,14 @@
         <title>Order Page</title>
     </head>
     <body>
-        
+        <%
+            Object ordered = request.getAttribute("ItensOrdered");
+            String answer = "";
+            if (ordered != null) {
+                answer = ordered.toString();
+            }
+            out.print(answer);
+
+        %>
     </body>
 </html>

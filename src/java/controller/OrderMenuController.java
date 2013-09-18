@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ import model.CashRegister;
 public class OrderMenuController extends HttpServlet {
 
     private static final String ORDER_PAGE = "/OrderResult.jsp";
-
+    private String orders = "";
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -38,8 +39,13 @@ public class OrderMenuController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            String[] food = request.getParameterValues("food");
             
             CashRegister cr = new CashRegister();
+            orders = cr.getBillForCustomer(food);
+            
+            request.setAttribute("ItemsOrdered", orders);
+            
 
             RequestDispatcher view = request.getRequestDispatcher(ORDER_PAGE);
             view.forward(request, response);
