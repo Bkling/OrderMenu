@@ -22,18 +22,19 @@ public class CashRegister {
     private static final String SPLIT = "/";
     private static final String SPACE = " ";
     private static final String BREAK = "<br />";
+    public static final String BILL = "Bill: ";
+    public static final String SALES = "Sales Tax: ";
+    public static final String GRAND = "Grand Total: ";
 
     public String getBillForCustomer(String[] orders) {
-        for (String order : orders) {
-            item = order.split(SPLIT);
+        for (String personOrder : orders) {
+            item = personOrder.split(SPLIT);
             foodName = item[0];
             foodPrice = item[1];
         }
         bill = bill + Double.valueOf(foodPrice);
         order = order + foodName + SPACE + Double.parseDouble(foodPrice) + BREAK;
-        order += "Bill: " + bill + BREAK
-                + "Sales Tax: " + salesTax + BREAK
-                + "Grand Total: " + totalBill;
+        order += BILL + bill + BREAK + SALES + salesTax + BREAK + GRAND + totalBill;
         return order;
     }
 

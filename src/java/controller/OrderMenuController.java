@@ -38,20 +38,15 @@ public class OrderMenuController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
-            String[] food = request.getParameterValues("food");
+            String[] foods = request.getParameterValues("food");
             
             CashRegister cr = new CashRegister();
-            orders = cr.getBillForCustomer(food);
+            orders = cr.getBillForCustomer(foods);
             
             request.setAttribute("ItemsOrdered", orders);
             
-
             RequestDispatcher view = request.getRequestDispatcher(ORDER_PAGE);
             view.forward(request, response);
-        } finally {
-            out.close();
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
