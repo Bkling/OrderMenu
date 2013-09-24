@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CashRegister;
+import model.MenuItem;
+import model.MenuService;
 
 /**
  *
@@ -38,13 +41,6 @@ public class OrderMenuDataBaseController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String order = "";
-            String[] foods = request.getParameterValues("food");
-
-            CashRegister cr = new CashRegister();
-            order = cr.getBillForCustomer(foods);
-
-            request.setAttribute("ItemsOrdered", order);
 
             RequestDispatcher view = request.getRequestDispatcher(ORDER_PAGE);
             view.forward(request, response);
