@@ -18,9 +18,12 @@ public class MenuDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/restaurant";
     private static final String ADMIN = "root";
     private static final String PASSWORD = "admin";
-
-    public MenuDAO() {
-    }
+    private String sql = "select * from menu order by menu_id";
+    private static final String MENU_ID = "menu_id";
+    private static final String MENU_ITEM = "menu_item";
+    private static final String MENU_ITEM_PRICE = "menu_item_price";
+    private static final String CATEGORY = "category_id";
+    private static final String MENU_VALUE = "menu_value";
 
     public MenuDAO(DBAccessor db) {
         this.db = db;
@@ -47,19 +50,18 @@ public class MenuDAO {
             // send commands to the database.            
             db.openConnection(DRIVER, URL, ADMIN, PASSWORD);
 
-            String sql = "Select * from menu order by menu_id";
             List<Map> rawData = db.findRecords(sql, true);
             for (Map record : rawData) {
                 MenuItem item = new MenuItem();
-                int id = Integer.valueOf(record.get("menu_id").toString());
+                int id = Integer.valueOf(record.get(MENU_ID).toString());
                 item.setMenuId(id);
-                String name = String.valueOf(record.get("menu_item"));
+                String name = String.valueOf(record.get(MENU_ITEM));
                 item.setMenuItem(name);
-                Double price = Double.valueOf(record.get("menu_item_price").toString());
+                Double price = Double.valueOf(record.get(MENU_ITEM_PRICE).toString());
                 item.setItemPrice(price);
-                int cat = Integer.valueOf(record.get("category_id").toString());
+                int cat = Integer.valueOf(record.get(CATEGORY).toString());
                 item.setCategory(cat);
-                String value = String.valueOf(record.get("menu_value").toString());
+                String value = String.valueOf(record.get(MENU_VALUE).toString());
                 item.setMenuValue(value);
                 items.add(item);
             }
@@ -78,7 +80,8 @@ public class MenuDAO {
     }
 
     public static void main(String[] args) {
-        MenuDAO menu = new MenuDAO();
-
+        MenuDAO dao = new MenuDAO(new DB_Generic());
+        List<MenuItem> items = dao.getMenuChoices();
+        System.out.println(items);
     }
 }
