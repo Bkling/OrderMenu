@@ -51,7 +51,7 @@ public class OrderMenuDataBaseController extends HttpServlet {
 
             if (orderEvent == null) {
                 // nothing to do, it's a new order
-            } else if (orderEvent.startsWith("Place")) {
+            } else if (orderEvent.startsWith("Submit")) {
                 if (false) {
                     System.out.println("*** Selected item from menu ***");
                 }
@@ -59,7 +59,7 @@ public class OrderMenuDataBaseController extends HttpServlet {
                 orderList.clear();
                 for (String item : orderItems) {
                     for (MenuItem menuItem : menuList) {
-                        if (menuItem.getMenuItem().equals(item)) {
+                        if (menuItem.getMenuValue().equals(item)) {
                             orderList.add(menuItem);
                             break;
                         }
