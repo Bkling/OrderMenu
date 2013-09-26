@@ -25,6 +25,7 @@ import model.MenuService;
 public class OrderMenuDataBaseController extends HttpServlet {
 
     private static final String ORDER_PAGE = "/OrderResult.jsp";
+    private static final String ORDER = "/OrderMenuDB.jsp";
 
     /**
      * Processes requests for both HTTP
@@ -41,8 +42,37 @@ public class OrderMenuDataBaseController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            String orderEvent = request.getParameter("submit");
+            String destination = ORDER;
+            MenuService ms = new MenuService();
 
-            RequestDispatcher view = request.getRequestDispatcher(ORDER_PAGE);
+            List<MenuItem> menuList = ms.getMenuList();
+            List<MenuItem> orderList = ms.getOrderList();
+
+            if (orderEvent == null) {
+                // nothing to do, it's a new order
+            } else if (orderEvent.startsWith("Place")) {
+                if (false) {
+                    System.out.println("*** Selected item from menu ***");
+                }
+                String[] orderItems = request.getParameterValues("menuItems");
+                orderList.clear();
+                for (String item : orderItems) {
+                    for (MenuItem menuItem : menuList) {
+                        if (menuItem.getMenuItem().equals(item)) {
+                            orderList.add(menuItem);
+                            break;
+                        }
+                    }
+                }
+
+                ms.setOrderList(orderList);
+                ms.placeOrder();
+                destination = ORDER_PAGE;
+            }
+            request.setAttribute("menuList", menuList);
+            request.setAttribute("orderList", orderList);
+            RequestDispatcher view = request.getRequestDispatcher(destination);
             view.forward(request, response);
         } finally {
             out.close();

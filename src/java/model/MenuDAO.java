@@ -79,6 +79,28 @@ public class MenuDAO {
         }
     }
 
+    public void takeOrder(List<MenuItem> orderList) throws RuntimeException {
+        try {
+            db.openConnection(ADMIN, sql, sql, sql);
+            List keys = new ArrayList();
+            List values = new ArrayList();
+            for (MenuItem item : orderList) {
+                keys.add("menu_id");
+                values.add(item.getMenuId());
+                db.insertRecord("menu", keys, values, true);
+            }
+            db.closeConnection();
+        } catch (IllegalArgumentException ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
+    }
+
     public static void main(String[] args) {
         MenuDAO dao = new MenuDAO(new DB_Generic());
         List<MenuItem> items = dao.getMenuChoices();
